@@ -1,0 +1,42 @@
+-- CREATE TABLES
+
+CREATE TABLE companies (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE devices (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    company_id INT REFERENCES companies(id)
+);
+
+CREATE TABLE device_readings (
+    id SERIAL PRIMARY KEY,
+    device_id INT REFERENCES devices(id),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- INSERT SAMPLE DATA
+
+-- Insert a few companies
+
+INSERT INTO companies (name) VALUES
+('AlphaTech'),
+('BetaCorp');
+
+-- Insert some devices for each company
+
+INSERT INTO devices (name, company_id) VALUES
+('Sensor A', 1),
+('Sensor B', 1),
+('Sensor C', 2),
+('Sensor D', 2);
+
+-- Insert device readings (to show online/offline)
+
+INSERT INTO device_readings (device_id, timestamp) VALUES
+(1, NOW()),
+(2, NOW() - INTERVAL '5 minutes'),
+(3, NOW()),
+(4, NOW() - INTERVAL '10 minutes');
